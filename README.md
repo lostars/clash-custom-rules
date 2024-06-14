@@ -1,1 +1,1 @@
-# clash-custom-rules
+# self-use clash rules
