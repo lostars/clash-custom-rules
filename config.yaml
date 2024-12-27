@@ -58,7 +58,7 @@ external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-
 
 # 类似于 /etc/hosts, 仅支持配置单个 IP
 hosts:
-'router.asus.com': 192.168.50.1
+# 'router.asus.com': 192.168.50.1
 # '.dev': 127.0.0.1
 # 'alpha.mihomo.dev': '::1'
 # test.com: [1.1.1.1, 2.2.2.2]
@@ -74,7 +74,7 @@ profile: # 存储 select 选择记录
 # Tun 配置
 tun:
   enable: false
-  stack: system # gvisor/mixed
+  stack: gvisor # gvisor/mixed/system
   dns-hijack:
     - 0.0.0.0:53 # 需要劫持的 DNS
   # auto-detect-interface: true # 自动识别出口网卡
@@ -712,16 +712,8 @@ rule-providers:
     type: http
     url: "https://raw.githubusercontent.com/lostars/clash-custom-rules/main/JPSites.yaml"
 
-# ruleset=🚀 节点选择,[]DOMAIN
-# ruleset=🚀 节点选择,https://raw.githubusercontent.com/lostars/clash-custom-rules/main/proxy-list.list
-# ruleset=🎯 全球直连,https://raw.githubusercontent.com/lostars/clash-custom-rules/main/custom-rule.list
-# ruleset=🇯🇵 日本节点,https://raw.githubusercontent.com/lostars/clash-custom-rules/main/jp-list.list
-# ruleset=🎯 全球直连,[]GEOIP,CN
-# ruleset=🐟 漏网之鱼,[]FINAL
-
 rules:
   # 自己维护的规则优先
-
   - DOMAIN,🚀 节点选择
   - RULE-SET,BTPT,🧲 BT&PT
   - RULE-SET,JPSites,🇯🇵 日本节点
