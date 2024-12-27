@@ -8,8 +8,8 @@ redir-port: 7893 # 透明代理端口，用于 Linux 和 MacOS
 
 allow-lan: true # 允许局域网连接
 bind-address: "*" # 绑定 IP 地址，仅作用于 allow-lan 为 true，'*'表示所有地址
-authentication: # http,socks 入口的验证用户名，密码
-  - "username:password"
+# authentication: # http,socks 入口的验证用户名，密码
+  # - "username:password"
 skip-auth-prefixes: # 设置跳过验证的 IP 段
   - 127.0.0.1/8
   - ::1/128
@@ -58,7 +58,7 @@ external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-
 
 # 类似于 /etc/hosts, 仅支持配置单个 IP
 hosts:
-# 'router.asus.com': 192.168.50.1
+'router.asus.com': 192.168.50.1
 # '.dev': 127.0.0.1
 # 'alpha.mihomo.dev': '::1'
 # test.com: [1.1.1.1, 2.2.2.2]
@@ -74,7 +74,7 @@ profile: # 存储 select 选择记录
 # Tun 配置
 tun:
   enable: false
-  stack: gvisor # gvisor/mixed/system
+  stack: system # gvisor/mixed
   dns-hijack:
     - 0.0.0.0:53 # 需要劫持的 DNS
   # auto-detect-interface: true # 自动识别出口网卡
@@ -244,6 +244,17 @@ dns:
     ## 且 behavior 必须为 domain/classical，当为 classical 时仅会生效域名类规则
     # "rule-set:global,dns": 8.8.8.8
 
+# 订阅，多订阅在这里添加
+sub: &sub
+  use:
+    - cordcloud
+
+latency: &latency
+  interval: 300
+  tolerance: 50
+  url: http://www.gstatic.com/generate_204
+  <<: *sub
+
 proxies:
 
 proxy-groups:
@@ -261,257 +272,46 @@ proxy-groups:
       - 🇺🇲 美国节点
       - 🇸🇩 德国节点
       - 🇫🇷 法国节点
+      - 😒 其他节点
       - DIRECT
 
-  - name: 🚀 手动切换
-    type: select
-    proxies:
-      - DIRECT
-    use:
-      - cordcloud
+  - { name: 🚀 手动切换, type: select, proxies: [DIRECT], <<: *sub }
+  - { name: 💀 所有节点, type: select, proxies: [DIRECT], <<: *sub}
 
-  - name: ♻️ 自动选择
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    use:
-      - cordcloud
+  # 可配置支持bt/pt的订阅
+  - { name: 🧲 BT&PT, type: select, proxies: [DIRECT] }
 
-  - name: 🔯 故障转移
-    type: fallback
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    use:
-      - cordcloud
+  - { name: 🎥 奈飞视频, type: select, proxies: [🎥 奈飞节点] }
+  - { name: 🌍 国外媒体, type: select, proxies: [🚀 节点选择, 💀 所有节点, DIRECT] }
+  - { name: 💬 OpenAi, type: select, proxies: [🇺🇲 美国节点, 🚀 节点选择, 💀 所有节点] }
 
-  - name: 🔮 负载均衡
-    type: load-balance
-    strategy: consistent-hashing
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    use:
-      - cordcloud
+  # 默认直连
+  - { name: 🌏 国内媒体, type: select, proxies: [DIRECT, 🚀 节点选择, 💀 所有节点] }
+  - { name: 📢 谷歌FCM, type: select, proxies: [DIRECT, 🚀 节点选择, 💀 所有节点] }
+  - { name: Ⓜ️ 微软服务, type: select, proxies: [DIRECT, 🚀 节点选择, 💀 所有节点] }
+  - { name: 🍎 苹果服务, type: select, proxies: [DIRECT, 🚀 节点选择, 💀 所有节点] }
+  - { name: 🎯 全球直连, type: select, proxies: [DIRECT, 🚀 节点选择, 💀 所有节点] }
 
-  - name: 🧲 BT&PT
-    type: select
-    proxies:
-      - DIRECT
-    use:
-      # - test # 支持bt/pt的订阅
+  - { name: 🐟 漏网之鱼, type: select, proxies: [🚀 节点选择, 💀 所有节点, DIRECT] }
 
-  - name: 🎥 奈飞视频
-    type: select
-    proxies:
-      - 🎥 奈飞节点
-      - DIRECT
+  - { name: 🛑 广告拦截, type: select, proxies: [REJECT, DIRECT] }
+  - { name: 🍃 应用净化, type: select, proxies: [REJECT, DIRECT] }
+  - { name: 🆎 AdBlock, type: select, proxies: [REJECT, DIRECT] }
+  - { name: 🛡️ 隐私防护, type: select, proxies: [REJECT, DIRECT] }
 
-  - name: 🌍 国外媒体
-    type: select
-    proxies:
-      - 🚀 节点选择
-      - ♻️ 自动选择
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🚀 手动切换
-      - 🇸🇩 德国节点
-      - 🇫🇷 法国节点
-      - DIRECT
+  - { name: ♻️ 自动选择, <<: *latency, type: url-test }
+  - { name: 🔯 故障转移, <<: *latency, type: fallback }
+  - { name: 🔮 负载均衡, <<: *latency, type: load-balance, strategy: consistent-hashing }
 
-  - name: 🌏 国内媒体
-    type: select
-    proxies:
-      - DIRECT
-      - 🚀 节点选择
-      - ♻️ 自动选择
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🚀 手动切换
-      - 🇸🇩 德国节点
-      - 🇫🇷 法国节点
-
-  - name: 📢 谷歌FCM
-    type: select
-    proxies:
-      - DIRECT
-      - 🚀 节点选择
-      - 🇺🇲 美国节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🚀 手动切换
-      - 🇸🇩 德国节点
-      - 🇫🇷 法国节点
-
-  - name: Ⓜ️ 微软服务
-    type: select
-    proxies:
-      - DIRECT
-      - 🚀 节点选择
-      - 🇺🇲 美国节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🚀 手动切换
-      - 🇸🇩 德国节点
-      - 🇫🇷 法国节点
-
-  - name: 🍎 苹果服务
-    type: select
-    proxies:
-      - DIRECT
-      - 🚀 节点选择
-      - 🇺🇲 美国节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🚀 手动切换
-      - 🇸🇩 德国节点
-      - 🇫🇷 法国节点
-
-  - name: 💬 OpenAi
-    type: select
-    proxies:
-      - 🇺🇲 美国节点
-      - 🚀 节点选择
-      - ♻️ 自动选择
-      - 🇸🇬 狮城节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇯🇵 日本节点
-      - 🚀 手动切换
-      - 🇸🇩 德国节点
-      - 🇫🇷 法国节点
-      - DIRECT
-
-  - name: 🎯 全球直连
-    type: select
-    proxies:
-      - DIRECT
-      - 🚀 节点选择
-      - ♻️ 自动选择
-
-  - name: 🛑 广告拦截
-    type: select
-    proxies:
-      - REJECT
-      - DIRECT
-
-  - name: 🍃 应用净化
-    type: select
-    proxies:
-      - REJECT
-      - DIRECT
-
-  - name: 🆎 AdBlock
-    type: select
-    proxies:
-      - REJECT
-      - DIRECT
-
-  - name: 🛡️ 隐私防护
-    type: select
-    proxies:
-      - REJECT
-      - DIRECT
-
-  - name: 🐟 漏网之鱼
-    type: select
-    proxies:
-      - 🚀 节点选择
-      - ♻️ 自动选择
-      - DIRECT
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🚀 手动切换
-      - 🇸🇩 德国节点
-      - 🇫🇷 法国节点
-
-  - name: 🇭🇰 香港节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    filter: "HK|香港|港"
-    use:
-      - cordcloud
-
-  - name: 🇯🇵 日本节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    filter: "JP|日本"
-    use:
-      - cordcloud
-
-  - name: 🇺🇲 美国节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 150
-    filter: "US|美国"
-    use:
-      - cordcloud
-
-  - name: 🇨🇳 台湾节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    filter: "TW|台湾"
-    use:
-      - cordcloud
-
-  - name: 🇸🇬 狮城节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    filter: "SG|新加坡"
-    use:
-      - cordcloud
-
-  - name: 🇸🇩 德国节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    filter: "DE|德国"
-    use:
-      - cordcloud
-
-  - name: 🇫🇷 法国节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    filter: "FR|法国"
-    use:
-      - cordcloud
-
-  - name: 🎥 奈飞节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    filter: "[M]|AN"
-    use:
-      - cordcloud
+  - { name: 🇭🇰 香港节点, <<: *latency, type: url-test, filter: "HK|香港|港" }
+  - { name: 🇯🇵 日本节点, <<: *latency, type: url-test, filter: "JP|日本" }
+  - { name: 🇺🇲 美国节点, <<: *latency, type: url-test, filter: "US|美国" }
+  - { name: 🇨🇳 台湾节点, <<: *latency, type: url-test, filter: "TW|台湾" }
+  - { name: 🇸🇬 狮城节点, <<: *latency, type: url-test, filter: "SG|新加坡" }
+  - { name: 🇸🇩 德国节点, <<: *latency, type: url-test, filter: "DE|德国" }
+  - { name: 🇫🇷 法国节点, <<: *latency, type: url-test, filter: "FR|法国" }
+  - { name: 🎥 奈飞节点, <<: *latency, type: url-test, filter: "[M]|AN" }
+  - { name: 😒 其他节点, <<: *latency, type: url-test, filter: "(?i)^(?!.*(?:HK|香港|港|JP|日本|US|美国|TW|台湾|SG|新加坡|DE|德国|FR|法国|[M]|AN)).*" }
 
 # Mihomo 格式的节点或支持 *ray 的分享格式
 proxy-providers:
@@ -714,6 +514,7 @@ rule-providers:
 
 rules:
   # 自己维护的规则优先
+
   - DOMAIN,🚀 节点选择
   - RULE-SET,BTPT,🧲 BT&PT
   - RULE-SET,JPSites,🇯🇵 日本节点
