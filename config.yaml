@@ -28,10 +28,10 @@ find-process-mode: strict
 mode: rule
 
 #自定义 geodata url
-# geox-url:
-#   geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
-#   geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
-#   mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
+geox-url:
+  geoip: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
 
 geo-auto-update: true # 是否自动更新 geodata
 geo-update-interval: 24 # 更新间隔，单位：小时
@@ -261,6 +261,8 @@ proxy-groups:
   - name: 🚀 节点选择
     type: select
     proxies:
+      - ♻️ 低倍率香港
+      - ♻️ 自动选择低倍率
       - ♻️ 自动选择
       - 🚀 手动切换
       - 🔯 故障转移
@@ -300,6 +302,9 @@ proxy-groups:
   - { name: 🛡️ 隐私防护, type: select, proxies: [REJECT, DIRECT] }
 
   - { name: ♻️ 自动选择, <<: *latency, type: url-test }
+  - { name: ♻️ 自动选择低倍率, <<: *latency, type: url-test, filter: "\\[倍率:1\\]|\\[倍率:0.[1-9]\\]" }
+  - { name: ♻️ 低倍率香港, <<: *latency, type: url-test, filter: "(HK|香港|港).*(\\[倍率:1\\]|\\[倍率:0.[1-9]\\])" }
+
   - { name: 🔯 故障转移, <<: *latency, type: fallback }
   - { name: 🔮 负载均衡, <<: *latency, type: load-balance, strategy: consistent-hashing }
 
@@ -310,7 +315,7 @@ proxy-groups:
   - { name: 🇸🇬 狮城节点, <<: *latency, type: url-test, filter: "SG|新加坡" }
   - { name: 🇸🇩 德国节点, <<: *latency, type: url-test, filter: "DE|德国" }
   - { name: 🇫🇷 法国节点, <<: *latency, type: url-test, filter: "FR|法国" }
-  - { name: 🎥 奈飞节点, <<: *latency, type: url-test, filter: "[M]|AN" }
+  - { name: 🎥 奈飞节点, <<: *latency, type: url-test, filter: "\\[M\\]|AN" }
   - { name: 😒 其他节点, <<: *latency, type: url-test, filter: "(?i)^(?!.*(?:HK|香港|港|JP|日本|US|美国|TW|台湾|SG|新加坡|DE|德国|FR|法国|[M]|AN)).*" }
 
 # Mihomo 格式的节点或支持 *ray 的分享格式
@@ -426,14 +431,14 @@ rule-providers:
     interval: 259200
     path: rules/GoogleCN.yaml
     type: http
-    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/GoogleCN.yaml"
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/GoogleCN.yaml"
 
   Microsoft:
     behavior: classical
     interval: 259200
     path: rules/Microsoft.yaml
     type: http
-    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/Microsoft.yaml"
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/Microsoft.yaml"
 
   OpenAi:
     behavior: classical
@@ -471,7 +476,7 @@ rule-providers:
     url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/ProxyGFWlist.yaml"
 
   ChinaIp:
-    behavior: classical
+    behavior: ipcidr
     interval: 259200
     path: rules/ChinaIp.yaml
     type: http
@@ -485,7 +490,7 @@ rule-providers:
     url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/ChinaDomain.yaml"
 
   ChinaCompanyIp:
-    behavior: classical
+    behavior: ipcidr
     interval: 259200
     path: rules/ChinaCompanyIp.yaml
     type: http
@@ -540,27 +545,4 @@ rules:
   - RULE-SET,Download,🎯 全球直连
   - GEOIP,CN,🎯 全球直连
   - MATCH,🐟 漏网之鱼
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
