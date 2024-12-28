@@ -42,9 +42,19 @@ ipv6: true # 开启 IPv6 总开关，关闭阻断所有 IPv6 链接和屏蔽 DNS
 
 external-controller: 0.0.0.0:9090 # RESTful API 监听地址
 # external-controller-tls: 0.0.0.0:9443 # RESTful API HTTPS 监听地址，需要配置 tls 部分配置文件
-# secret: "123456" # `Authorization:Bearer ${secret}`
+secret: "mihomo" # `Authorization:Bearer ${secret}`
+
+# RESTful API CORS标头配置 尽量不要允许跨域
+external-controller-cors:
+  allow-origins:
+    # - 127.0.0.1
+    # - localhost
+  allow-private-network: true
 
 tcp-concurrent: true # TCP 并发连接所有 IP, 将使用最快握手的 TCP
+
+# 开启统一延迟时，会计算 RTT，以消除连接握手等带来的不同类型节点的延迟差异
+unified-delay: true
 
 # 配置 WEB UI 目录，使用 http://{{external-controller}}/ui 访问
 external-ui: metacubexd
@@ -56,20 +66,11 @@ external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-
 # keep-alive-idle: 15
 # keep-alive-interval: 15
 
-# 类似于 /etc/hosts, 仅支持配置单个 IP
-hosts:
-'router.asus.com': 192.168.50.1
-# '.dev': 127.0.0.1
-# 'alpha.mihomo.dev': '::1'
-# test.com: [1.1.1.1, 2.2.2.2]
-# home.lan: lan # lan 为特别字段，将加入本地所有网卡的地址
-# baidu.com: google.com # 只允许配置一个别名
-
 profile: # 存储 select 选择记录
   store-selected: true
 
   # 持久化 fake-ip
-  store-fake-ip: true
+  store-fake-ip: false
 
 # Tun 配置
 tun:
@@ -126,12 +127,22 @@ tun:
   # exclude-package: # 排除被路由的 Android 应用包名
   # - com.android.captiveportallogin
 
+# 类似于 /etc/hosts, 仅支持配置单个 IP
+hosts:
+# 'router.asus.com': 192.168.50.1
+# 'dev.test.local': 192.168.50.1
+# 'alpha.mihomo.dev': '::1'
+# test.com: [1.1.1.1, 2.2.2.2]
+# home.lan: lan # lan 为特别字段，将加入本地所有网卡的地址
+# baidu.com: google.com # 只允许配置一个别名
+
 # DNS 配置
+# https://www.v2ex.com/t/1015534
 dns:
-  cache-algorithm: arc
+  # cache-algorithm: arc
   enable: true # 关闭将使用系统 DNS
-  prefer-h3: false # 是否开启 DoH 支持 HTTP/3，将并发尝试
-  listen: 0.0.0.0:53 # 开启 DNS 服务器监听
+  prefer-h3: true # 是否开启 DoH 支持 HTTP/3，将并发尝试
+  listen: 0.0.0.0:1053 # 开启 DNS 服务器监听
   ipv6: true # false 将返回 AAAA 的空结果
   # ipv6-timeout: 300 # 单位：ms，内部双栈并发时，向上游查询 AAAA 时，等待 AAAA 的时间，默认 100ms
   # 用于解析 nameserver，fallback 以及其他 DNS 服务器配置的，DNS 服务域名
@@ -148,8 +159,8 @@ dns:
 
   # 配置不使用 fake-ip 的域名
   fake-ip-filter:
-    - '*.lan'
-    - localhost.ptlogin2.qq.com
+    # - '+.lan'
+    # - '+.local'
     # fakeip-filter 为 rule-providers 中的名为 fakeip-filter 规则订阅，
     # 且 behavior 必须为 domain/classical，当为 classical 时仅会生效域名类规则
     # - rule-set:fakeip-filter
@@ -172,14 +183,16 @@ dns:
   # 支持 UDP，TCP，DoT，DoH，DoQ
   # 这部分为主要 DNS 配置，影响所有直连，确保使用对大陆解析精准的 DNS
   nameserver:
-    - 223.5.5.5
-    - 180.76.76.76
-    - 119.29.29.29
-    - 117.50.11.11
-    - 117.50.10.10
-    - 114.114.114.114
-    - https://dns.alidns.com/dns-query
-    - https://doh.360.cn/dns-query
+    - https://8.8.8.8/dns-query
+    - https://1.1.1.1/dns-query
+    # - 223.5.5.5
+    # - 180.76.76.76
+    # - 119.29.29.29
+    # - 117.50.11.11
+    # - 117.50.10.10
+    # - 114.114.114.114
+    # - https://dns.alidns.com/dns-query
+    # - https://doh.360.cn/dns-query
     # - 114.114.114.114 # default value
     # - 8.8.8.8 # default value
     # - tls://223.5.5.5:853 # DNS over TLS
@@ -194,15 +207,15 @@ dns:
   # 当配置 fallback 时，会查询 nameserver 中返回的 IP 是否为 CN，非必要配置
   # 当不是 CN，则使用 fallback 中的 DNS 查询结果
   # 确保配置 fallback 时能够正常查询
-  fallback:
-    - 8.8.8.8
-    - 1.1.1.1
-    - tls://dns.rubyfish.cn:853
-    - tls://1.0.0.1:853
-    - tls://dns.google:853
-    - https://dns.rubyfish.cn/dns-query
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
+  # fallback:
+  #   - 8.8.8.8
+  #   - 1.1.1.1
+  #   - tls://dns.rubyfish.cn:853
+  #   - tls://1.0.0.1:853
+  #   - tls://dns.google:853
+  #   - https://dns.rubyfish.cn/dns-query
+  #   - https://cloudflare-dns.com/dns-query
+  #   - https://dns.google/dns-query
   #   - tcp://1.1.1.1
   #   - 'tcp://1.1.1.1#ProxyGroupName' # 指定 DNS 过代理查询，ProxyGroupName 为策略组名或节点名，过代理配置优先于配置出口网卡，当找不到策略组或节点名则设置为出口网卡
 
@@ -217,15 +230,15 @@ dns:
   # direct-nameserver-follow-policy: false # 是否遵循nameserver-policy，默认为不遵守，仅当direct-nameserver不为空时生效
 
   # 配置 fallback 使用条件
-  fallback-filter:
-    geoip: true # 配置是否使用 geoip
+  # fallback-filter:
+  #   geoip: true # 配置是否使用 geoip
   #   geoip-code: CN # 当 nameserver 域名的 IP 查询 geoip 库为 CN 时，不使用 fallback 中的 DNS 查询结果
   #   配置强制 fallback，优先于 IP 判断，具体分类自行查看 geosite 库
   #   geosite:
   #     - gfw
   #   如果不匹配 ipcidr 则使用 nameservers 中的结果
-    ipcidr:
-      - 240.0.0.0/4
+    # ipcidr:
+    #   - 240.0.0.0/4
   #   domain:
   #     - '+.google.com'
   #     - '+.facebook.com'
@@ -235,11 +248,12 @@ dns:
   nameserver-policy:
     #   'www.baidu.com': '114.114.114.114'
     #   '+.internal.crop.com': '10.0.0.1'
+    "rule-set:LocalAreaNetwork": [system]
     "geosite:cn,private,apple":
-      - https://doh.pub/dns-query
-      - https://dns.alidns.com/dns-query
-    "geosite:category-ads-all": rcode://success
-    "www.baidu.com,+.google.cn": [223.5.5.5, https://dns.alidns.com/dns-query]
+      - https://223.5.5.5/dns-query
+      - https://223.6.6.6/dns-query
+    # "geosite:category-ads-all": rcode://success
+    # "www.baidu.com,+.google.cn": [223.5.5.5, https://dns.alidns.com/dns-query]
     ## global，dns 为 rule-providers 中的名为 global 和 dns 规则订阅，
     ## 且 behavior 必须为 domain/classical，当为 classical 时仅会生效域名类规则
     # "rule-set:global,dns": 8.8.8.8
@@ -252,7 +266,7 @@ sub: &sub
 latency: &latency
   interval: 300
   tolerance: 50
-  url: http://www.gstatic.com/generate_204
+  url: https://www.gstatic.com/generate_204
   <<: *sub
 
 proxies:
@@ -316,7 +330,7 @@ proxy-groups:
   - { name: 🇸🇩 德国节点, <<: *latency, type: url-test, filter: "DE|德国" }
   - { name: 🇫🇷 法国节点, <<: *latency, type: url-test, filter: "FR|法国" }
   - { name: 🎥 奈飞节点, <<: *latency, type: url-test, filter: "\\[M\\]|AN" }
-  - { name: 😒 其他节点, <<: *latency, type: url-test, filter: "(?i)^(?!.*(?:HK|香港|港|JP|日本|US|美国|TW|台湾|SG|新加坡|DE|德国|FR|法国|[M]|AN)).*" }
+  - { name: 😒 其他节点, <<: *latency, type: url-test, filter: "(?i)^(?!.*(?:HK|香港|港|JP|日本|US|美国|TW|台湾|SG|新加坡|DE|德国|FR|法国|\\[M\\]|AN)).*" }
 
 # Mihomo 格式的节点或支持 *ray 的分享格式
 proxy-providers:
@@ -520,10 +534,9 @@ rule-providers:
 rules:
   # 自己维护的规则优先
 
-  - DOMAIN,🚀 节点选择
+  - RULE-SET,LocalAreaNetwork,🎯 全球直连
   - RULE-SET,BTPT,🧲 BT&PT
   - RULE-SET,JPSites,🇯🇵 日本节点
-  - RULE-SET,LocalAreaNetwork,🎯 全球直连
   - RULE-SET,UnBan,🎯 全球直连
   - RULE-SET,BanAD,🛑 广告拦截
   - RULE-SET,BanProgramAD,🍃 应用净化
