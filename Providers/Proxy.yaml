@@ -1,0 +1,3 @@
+payload:
+  # 自定义代理地址
+  - DOMAIN,onedrive.live.com
