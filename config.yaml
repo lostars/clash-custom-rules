@@ -539,18 +539,25 @@ rule-providers:
     interval: 259200
     path: rules/BTPT.yaml
     type: http
-    url: "https://raw.githubusercontent.com/lostars/clash-custom-rules/main/BTPT.yaml"
+    url: "https://raw.githubusercontent.com/lostars/clash-custom-rules/main/Providers/BTPT.yaml"
 
   JPSites:
     behavior: classical
     interval: 259200
     path: rules/JPSites.yaml
     type: http
-    url: "https://raw.githubusercontent.com/lostars/clash-custom-rules/main/JPSites.yaml"
+    url: "https://raw.githubusercontent.com/lostars/clash-custom-rules/main/Providers/JPSites.yaml"
+  
+  Proxy:
+    behavior: classical
+    interval: 259200
+    path: rules/Proxy.yaml
+    type: http
+    url: "https://raw.githubusercontent.com/lostars/clash-custom-rules/main/Providers/Proxy.yaml"
 
 rules:
   # 自己维护的规则优先
-
+  - RULE-SET,Proxy,🚀 节点选择
   - RULE-SET,LocalAreaNetwork,🎯 全球直连
   - RULE-SET,BTPT,🧲 BT&PT
   - RULE-SET,JPSites,🇯🇵 日本节点
