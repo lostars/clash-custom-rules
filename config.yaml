@@ -302,6 +302,7 @@ proxy-groups:
   
   - { name: 💬 OpenAi, type: select, proxies: [🇺🇲 美国节点, 🚀 节点选择, 💀 所有节点] }
   - { name: ✨ Gemini, type: select, proxies: [🇺🇲 美国节点, 🚀 节点选择, 💀 所有节点] }
+  - { name: 🙈 TikTok, type: select, proxies: [🇺🇲 美国节点, 🚀 节点选择, 💀 所有节点] }
 
   # 默认直连
   - { name: 🌏 国内媒体, type: select, proxies: [DIRECT, 🚀 节点选择, 💀 所有节点] }
@@ -526,6 +527,13 @@ rule-providers:
     type: http
     url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/Gemini.yaml"
 
+  TikTok:
+    behavior: classical
+    interval: 259200
+    path: rules/TikTok.yaml
+    type: http
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/TikTok.yaml"
+
   BTPT:
     behavior: classical
     interval: 259200
@@ -559,6 +567,7 @@ rules:
   - RULE-SET,OpenAi,💬 OpenAi
   - RULE-SET,Gemini,✨ Gemini
   - RULE-SET,Netflix,🎥 奈飞视频
+  - RULE-SET,TikTok,🙈 TikTok
   - RULE-SET,ChinaMedia,🌏 国内媒体
   - RULE-SET,ProxyMedia,🌍 国外媒体
   - RULE-SET,ProxyGFWlist,🚀 节点选择
