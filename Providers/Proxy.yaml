@@ -1,3 +1,4 @@
 payload:
   # 自定义代理地址
   - DOMAIN,onedrive.live.com
+  - global.download.synology.com
