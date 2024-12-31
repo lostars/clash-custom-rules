@@ -3,5 +3,8 @@ payload:
   - DOMAIN,onedrive.live.com
   - DOMAIN,global.download.synology.com
   - DOMAIN,open.spotify.com
+
   - DOMAIN-SUFFIX,yckceo.com
+  - DOMAIN-SUFFIX,brew.sh
+  
   - DOMAIN-KEYWORD,banzhu
