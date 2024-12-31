@@ -4,3 +4,4 @@ payload:
   - DOMAIN,global.download.synology.com
   - DOMAIN,open.spotify.com
   - DOMAIN-SUFFIX,yckceo.com
+  - KEYWORD,banzhu
