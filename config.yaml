@@ -298,6 +298,7 @@ proxy-groups:
   - { name: 🧲 BT&PT, type: select, proxies: [DIRECT] }
 
   - { name: 🎥 奈飞视频, type: select, proxies: [🎥 奈飞节点] }
+  - { name: 🎶 Spotify, type: select, proxies: [DIRECT, 🚀 节点选择, 💀 所有节点] }
   - { name: 🌍 国外媒体, type: select, proxies: [🚀 节点选择, 💀 所有节点, DIRECT] }
   
   - { name: 💬 OpenAi, type: select, proxies: [🇺🇲 美国节点, 🚀 节点选择, 💀 所有节点] }
@@ -534,6 +535,13 @@ rule-providers:
     type: http
     url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/TikTok.yaml"
 
+  Spotify:
+    behavior: classical
+    interval: 259200
+    path: rules/Spotify.yaml
+    type: http
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/Spotify.yaml"
+
   BTPT:
     behavior: classical
     interval: 259200
@@ -573,6 +581,7 @@ rules:
   - RULE-SET,Apple,🍎 苹果服务
   - RULE-SET,OpenAi,💬 OpenAi
   - RULE-SET,Gemini,✨ Gemini
+  - RULE-SET,Spotify,🎶 Spotify
   - RULE-SET,Netflix,🎥 奈飞视频
   - RULE-SET,TikTok,🙈 TikTok
   - RULE-SET,ChinaMedia,🌏 国内媒体
