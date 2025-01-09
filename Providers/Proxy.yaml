@@ -10,5 +10,6 @@ payload:
   - DOMAIN-SUFFIX,acg.rip
   - DOMAIN-SUFFIX,uaa.com
   - DOMAIN-SUFFIX,metacubex.one
+  - DOMAIN-SUFFIX,gradle.org
   
   - DOMAIN-KEYWORD,banzhu
