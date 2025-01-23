@@ -3,6 +3,8 @@ payload:
   - DOMAIN,onedrive.live.com
   - DOMAIN,global.download.synology.com
   - DOMAIN,open.spotify.com
+  - DOMAIN,www.gnu.org
+  - DOMAIN,cdn-updates.orbstack.dev
 
   - DOMAIN-SUFFIX,yckceo.com
   - DOMAIN-SUFFIX,brew.sh
