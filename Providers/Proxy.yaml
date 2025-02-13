@@ -6,6 +6,7 @@ payload:
   - DOMAIN,www.gnu.org
   - DOMAIN,cdn-updates.orbstack.dev
   - DOMAIN,download.sublimetext.com
+  - DOMAIN,download.parallels.com
 
   - DOMAIN-SUFFIX,yckceo.com
   - DOMAIN-SUFFIX,brew.sh
