@@ -8,6 +8,7 @@ payload:
   - DOMAIN,download.sublimetext.com
   - DOMAIN,download.parallels.com
   - DOMAIN,wallhaven.cc
+  - DOMAIN,injections.adguard.org
 
   - DOMAIN-SUFFIX,yckceo.com
   - DOMAIN-SUFFIX,brew.sh
