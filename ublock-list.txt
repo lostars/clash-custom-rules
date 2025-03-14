@@ -1,0 +1,2 @@
+laowang.vip##.ad-container
+www.bilibili.com##div.feed-card div.bili-video-card:not(.enable-no-interest)
