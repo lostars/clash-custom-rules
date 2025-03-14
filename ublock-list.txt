@@ -1,2 +1,9 @@
+[Adblock Plus 2.0]
+! Title: Self block list
+! Last modified: %timestamp%
+! Expires: 4 days (update frequency)
+! Homepage: https://github.com/lostars/clash-custom-rules
+!
+!-----------------------General advert blocking filters-----------------------!
 laowang.vip##.ad-container
 www.bilibili.com##div.feed-card div.bili-video-card:not(.enable-no-interest)
