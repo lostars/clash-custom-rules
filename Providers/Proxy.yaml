@@ -2,6 +2,7 @@ payload:
   # 自定义代理地址
   - DOMAIN,onedrive.live.com
   - DOMAIN,global.download.synology.com
+  - DOMAIN,archive.synology.com
   - DOMAIN,open.spotify.com
   - DOMAIN,www.gnu.org
   - DOMAIN,cdn-updates.orbstack.dev
