@@ -11,10 +11,4 @@ www.bilibili.com##div.container > div.bili-video-card:not(.enable-no-interest)
 search.bilibili.com##div:has(> div > div > a:not([href*="bilibili.com"]))
 www.bilibili.com##div[class*="-ad-"]
 ! === 屏蔽 Google One Tap 登录弹窗（第三方网站）===
-||accounts.google.com/gsi/iframe/*
-||accounts.google.com/gsi/status
-||accounts.google.com/gsi/log
-||accounts.google.com/gsi/client/*
-||apis.google.com/js/api.js$third-party,domain=~google.com|~youtube.com|~mail.google.com|~drive.google.com
-||apis.google.com/js/client:platform.js$third-party
-||ssl.gstatic.com/gsi/*
+||accounts.google.com/gsi/
