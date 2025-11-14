@@ -12,4 +12,4 @@ search.bilibili.com##div:has(> div > div > a:not([href*="bilibili.com"]))
 www.bilibili.com##div[class*="-ad-"]
 ! === 屏蔽 Google One Tap 登录弹窗（第三方网站）===
 ||accounts.google.com/gsi/
-||cloudfront.net/system/\d{6}/
+/cloudfront\.net\/system\/\d{6}/
