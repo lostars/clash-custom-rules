@@ -10,3 +10,6 @@
 ! === 屏蔽 Google One Tap 登录弹窗（第三方网站）===
 ||accounts.google.com/gsi/
 ||cloudfront.net/system/
+! === bilibili live ===
+live.bilibili.com##.shop-popover
+live.bilibili.com##.play-together-service-card-container
