@@ -18,6 +18,7 @@ payload:
   - DOMAIN-SUFFIX,uaa.com
   - DOMAIN-SUFFIX,metacubex.one
   - DOMAIN-SUFFIX,gradle.org
+  - DOMAIN-SUFFIX,cmastd.com
   
   - DOMAIN-KEYWORD,banzhu
   - DOMAIN-KEYWORD,missav
