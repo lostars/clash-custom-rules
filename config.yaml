@@ -286,33 +286,33 @@ proxy-groups:
       - 狮城节点
       - 日本节点
       - 美国节点
-      - 德国节点
-      - 法国节点
+      # - 德国节点
+      # - 法国节点
       - 其他节点
       - DIRECT
 
   - { name: 手动切换, type: select, proxies: [DIRECT], <<: *sub }
-  - { name: 所有节点, type: select, proxies: [DIRECT], <<: *sub}
+  # - { name: 所有节点, type: select, proxies: [DIRECT], <<: *sub}
 
   # 可配置支持bt/pt的订阅
   - { name: BT&PT, type: select, proxies: [DIRECT] }
 
   - { name: 奈飞视频, type: select, proxies: [奈飞节点] }
-  - { name: Spotify, type: select, proxies: [DIRECT, 节点选择, 所有节点] }
-  - { name: 国外媒体, type: select, proxies: [节点选择, 所有节点, DIRECT] }
+  - { name: Spotify, type: select, proxies: [DIRECT, 节点选择] }
+  - { name: 国外媒体, type: select, proxies: [节点选择, DIRECT] }
   
-  - { name: OpenAi, type: select, proxies: [美国节点, 节点选择, 所有节点] }
-  - { name: Gemini, type: select, proxies: [美国节点, 节点选择, 所有节点] }
-  - { name: TikTok, type: select, proxies: [美国节点, 节点选择, 所有节点] }
+  - { name: OpenAi, type: select, proxies: [美国节点, 节点选择] }
+  - { name: Gemini, type: select, proxies: [美国节点, 节点选择] }
+  - { name: TikTok, type: select, proxies: [美国节点, 节点选择] }
 
   # 默认直连
-  - { name: 国内媒体, type: select, proxies: [DIRECT, 节点选择, 所有节点] }
-  - { name: 谷歌FCM, type: select, proxies: [DIRECT, 节点选择, 所有节点] }
-  - { name: 微软服务, type: select, proxies: [DIRECT, 节点选择, 所有节点] }
-  - { name: 苹果服务, type: select, proxies: [DIRECT, 节点选择, 所有节点] }
-  - { name: 全球直连, type: select, proxies: [DIRECT, 节点选择, 所有节点] }
+  - { name: 国内媒体, type: select, proxies: [DIRECT, 节点选择] }
+  - { name: 谷歌FCM, type: select, proxies: [DIRECT, 节点选择] }
+  - { name: 微软服务, type: select, proxies: [DIRECT, 节点选择] }
+  - { name: 苹果服务, type: select, proxies: [DIRECT, 节点选择] }
+  - { name: 全球直连, type: select, proxies: [DIRECT, 节点选择] }
 
-  - { name: 漏网之鱼, type: select, proxies: [节点选择, 所有节点, DIRECT] }
+  - { name: 漏网之鱼, type: select, proxies: [节点选择, DIRECT] }
 
   - { name: 广告拦截, type: select, proxies: [REJECT, DIRECT] }
   - { name: 应用净化, type: select, proxies: [REJECT, DIRECT] }
@@ -331,10 +331,10 @@ proxy-groups:
   - { name: 美国节点, <<: *latency, type: url-test, filter: "US|美国" }
   - { name: 台湾节点, <<: *latency, type: url-test, filter: "TW|台湾" }
   - { name: 狮城节点, <<: *latency, type: url-test, filter: "SG|新加坡" }
-  - { name: 德国节点, <<: *latency, type: url-test, filter: "DE|德国" }
-  - { name: 法国节点, <<: *latency, type: url-test, filter: "FR|法国" }
+  # - { name: 德国节点, <<: *latency, type: url-test, filter: "DE|德国" }
+  # - { name: 法国节点, <<: *latency, type: url-test, filter: "FR|法国" }
   - { name: 奈飞节点, <<: *latency, type: url-test, filter: "\\[M\\]|AN" }
-  - { name: 其他节点, <<: *latency, type: url-test, filter: "(?i)^(?!.*(?:HK|香港|港|JP|日本|US|美国|TW|台湾|SG|新加坡|DE|德国|FR|法国|\\[M\\]|AN)).*" }
+  - { name: 其他节点, <<: *latency, type: url-test, filter: "(?i)^(?!.*(?:HK|香港|港|JP|日本|US|美国|TW|台湾|SG|新加坡|\\[M\\]|AN)).*" }
 
 # Mihomo 格式的节点或支持 *ray 的分享格式
 proxy-providers:
@@ -356,7 +356,7 @@ proxy-providers:
     health-check:
       enable: true
       interval: 600
-      # lazy: true
+      lazy: false
       url: https://www.gstatic.com/generate_204
       # expected-status: 204 # 当健康检查返回状态码与期望值不符时，认为节点不可用
     override: # 覆写节点加载时的一些配置项
