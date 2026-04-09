@@ -1,5 +1,9 @@
 payload:
-  # 自定义代理地址
+  - DOMAIN,challenges.cloudflare.com
+  - DOMAIN,dl.google.com
+  - DOMAIN,ocsp2.apple.com
+  - DOMAIN,valid.apple.com
+  - DOMAIN,certs.apple.com
   - DOMAIN,onedrive.live.com
   - DOMAIN,global.download.synology.com
   - DOMAIN,archive.synology.com
@@ -20,5 +24,4 @@ payload:
   - DOMAIN-SUFFIX,gradle.org
   - DOMAIN-SUFFIX,cmastd.com
   
-  - DOMAIN-KEYWORD,banzhu
   - DOMAIN-KEYWORD,missav
