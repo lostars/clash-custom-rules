@@ -13,3 +13,5 @@
 ! === bilibili live ===
 live.bilibili.com##.shop-popover
 live.bilibili.com##.play-together-service-card-container
+! === bilibili ===
+www.bilibili.com##div.adblock-tips
