@@ -20,3 +20,4 @@ www.bilibili.com##div.adblock-tips
 ! 试用画质弹窗
 www.bilibili.com##div#pcCashierWrapper
 www.bilibili.com##div[class*="paybar_container"]
+www.bilibili.com###danmukuBox:style(margin-top: 0 !important;)
