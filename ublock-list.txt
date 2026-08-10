@@ -14,7 +14,7 @@
 live.bilibili.com##.shop-popover
 live.bilibili.com##.play-together-service-card-container
 ! 关注用户直播状态弹窗
-live.bilibili.com##div.side-bar-popup-cntr:style(display: none !important)
+live.bilibili.com##div.side-bar-popup-cntr:style(display: none;)
 ! === bilibili ===
 www.bilibili.com##div.adblock-tips
 ! 试用画质弹窗
