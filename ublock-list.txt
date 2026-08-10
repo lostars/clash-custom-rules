@@ -13,5 +13,10 @@
 ! === bilibili live ===
 live.bilibili.com##.shop-popover
 live.bilibili.com##.play-together-service-card-container
+! 关注用户直播状态弹窗
+live.bilibili.com##div.side-bar-popup-cntr
 ! === bilibili ===
 www.bilibili.com##div.adblock-tips
+! 试用画质弹窗
+www.bilibili.com##div#pcCashierWrapper
+www.bilibili.com##div[class*="paybar_container"]
