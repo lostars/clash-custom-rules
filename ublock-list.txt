@@ -21,3 +21,5 @@ www.bilibili.com##div.adblock-tips
 www.bilibili.com##div#pcCashierWrapper
 www.bilibili.com##div[class*="paybar_container"]
 www.bilibili.com###danmukuBox:style(margin-top: 0 !important;)
+! youtube shorts
+www.youtube.com##ytd-rich-section-renderer
